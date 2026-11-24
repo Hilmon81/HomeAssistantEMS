@@ -62,6 +62,7 @@ Control is in the first-milestone scope, but live physical output remains disabl
   source bounds are preserved; duration is not inferred from list length.
 - A push coordinator keeps an in-memory site data model of mapped readings and parsed Nordpool intervals. It refreshes on mapped source state changes without polling, keeps source values, units, timestamps, and sign metadata, and does not apply age-based staleness rules.
 - Future integration consumers can subscribe through `entry.runtime_data.site_data` and read the current snapshot from the coordinator's `data`.
+- Config-entry diagnostics include numeric readings and price intervals, but omit site/device names, configured IDs, and source entity IDs.
 - The owner reports Nordpool prices in SEK/kWh at 15-minute intervals. The price sensor is selected in the integration options; the sample from the installed Nordpool entity matches the parser's expected interval fields.
 
 ## Decisions still required

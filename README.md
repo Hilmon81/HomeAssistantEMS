@@ -51,6 +51,10 @@ changes without polling, preserves source units, timestamps, and sign metadata,
 and does not apply age-based staleness rules. Invalid interval attributes are
 reported in the model without discarding the source price reading.
 
+The diagnostics download includes numeric readings and price intervals for
+troubleshooting. It omits the site, inverter, and battery names and IDs, as well
+as source entity IDs.
+
 The tests use `pytest-homeassistant-custom-component`. CI installs its matching
 Home Assistant 2026.10.4 runtime; that runtime is not installed in this local
 workspace.
