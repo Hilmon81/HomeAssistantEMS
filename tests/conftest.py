@@ -1,5 +1,7 @@
 """Pytest configuration for Home Assistant integration tests."""
 
+# Set up HA's httpx alias before the test plugin imports respx.
+import homeassistant  # noqa: F401
 import pytest
 
 pytest_plugins = "pytest_homeassistant_custom_component"
