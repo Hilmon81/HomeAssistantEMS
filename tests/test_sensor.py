@@ -191,4 +191,4 @@ async def test_site_data_model_refreshes_when_price_attributes_change(
     assert runtime_data.site_data.data == snapshot
 
     assert await hass.config_entries.async_unload(entry.entry_id)
-    assert entry.runtime_data is None
+    assert getattr(entry, "runtime_data", None) is None
