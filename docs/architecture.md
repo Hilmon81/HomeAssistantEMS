@@ -53,10 +53,15 @@ Control is in the first-milestone scope, but live physical output remains disabl
 - Grid power is export-positive; battery power is discharge-positive. The integration records these conventions but does not change sensor values.
 - Mapped sensor values and units are mirrored from their source entities; no conversion is performed.
 - Source update timestamps are informational only. Some source entities update only when their value changes, so an unchanged value or old `last_updated` timestamp alone must not mark a reading stale or unavailable.
-- A selected Nordpool price sensor's `raw_today` and `raw_tomorrow` attributes are mirrored when present. Each interval's source `start`, `end`, and `value` are preserved; interval duration is not inferred from list length.
+- A selected Nordpool price sensor's `raw_today` and `raw_tomorrow` attributes are
+  mirrored when present. The owner-provided sample confirms timezone-aware ISO
+  8601 `start`/`end` values, numeric `value` fields, and 15-minute intervals.
+  `raw_tomorrow` may be absent until around 13:00-14:00 on the preceding day;
+  absence is represented as an empty series, not a parse error. Each interval's
+  source bounds are preserved; duration is not inferred from list length.
 - A push coordinator keeps an in-memory site data model of mapped readings and parsed Nordpool intervals. It refreshes on mapped source state changes without polling, keeps source values, units, timestamps, and sign metadata, and does not apply age-based staleness rules.
 - Future integration consumers can subscribe through `entry.runtime_data.site_data` and read the current snapshot from the coordinator's `data`.
-- The owner reports Nordpool prices in SEK/kWh at 15-minute intervals. The price sensor is selected in the integration options; the installed Nordpool version's exact attributes still need verification.
+- The owner reports Nordpool prices in SEK/kWh at 15-minute intervals. The price sensor is selected in the integration options; the sample from the installed Nordpool entity matches the parser's expected interval fields.
 
 ## Decisions still required
 

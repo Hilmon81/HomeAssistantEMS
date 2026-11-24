@@ -39,6 +39,10 @@ freshness signal remain to be established.
 For a Nordpool price sensor, `raw_today` and `raw_tomorrow` attributes are
 mirrored when present. Their interval `start` and `end` values are preserved;
 the integration does not infer interval duration from the number of prices.
+The owner-provided sample confirms timezone-aware ISO 8601 timestamps, numeric
+`value` fields, and 15-minute intervals. `raw_tomorrow` may be absent until
+around 13:00-14:00 on the preceding day; absence is treated as an empty series,
+not a parse error.
 A push coordinator keeps an in-memory site data model of mapped measurements,
 inverters, batteries, and parsed price intervals. It updates on source state
 changes without polling, preserves source units, timestamps, and sign metadata,
