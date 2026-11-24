@@ -10,8 +10,12 @@ configure read-only site, inverter, and battery sensor mappings and publishes
 mirror sensors. It does not calculate dispatch or issue control commands. Live
 control is not implemented or authorized.
 
-The initial compatibility test target is Home Assistant Core 2026.11.2. The
-minimum supported version and release policy are not yet defined.
+The intended initial compatibility target is Home Assistant Core 2026.11.2.
+CI currently runs the full integration test suite against 2026.10.4, the Core
+version bundled with `pytest-homeassistant-custom-component` 0.13.375.
+Compatibility with 2026.11.2 is not verified yet; update the CI test runtime
+when the test plugin supports it. The minimum supported version and release
+policy are not yet defined.
 
 ## Development
 
