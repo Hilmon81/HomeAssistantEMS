@@ -1,0 +1,35 @@
+name: Feature request
+description: Propose a software or EMS feature
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe business/operational value and users.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: true
+  - type: dropdown
+    id: safety
+    attributes:
+      label: EMS safety classification
+      options:
+        - Not EMS related
+        - Read-only telemetry
+        - Simulation/optimization only
+        - Configuration change
+        - Physical device write requested
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Known interfaces and evidence
+      description: Include documentation versions, models/firmware, entity IDs or register-map sources when relevant. Do not include secrets.

@@ -1,0 +1,14 @@
+{
+  "package": "ai-development-team-ems-v1.0.0",
+  "version": "1.0.0",
+  "file_count": 44,
+  "agents": 12,
+  "instructions": 10,
+  "prompts": 8,
+  "specialists": [
+    "Energy Management System Expert",
+    "Modbus Expert",
+    "Home Assistant Expert"
+  ],
+  "notes": "Agent tool lists intentionally omitted for harness compatibility and least-privilege configuration."
+}

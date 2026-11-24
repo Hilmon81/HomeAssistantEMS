@@ -1,0 +1,4 @@
+Source: https://github.com/JuliusBrussee/caveman
+Release: v4.2.0
+Commit: 70f4f34e834893ea9af9f4fc6022266bd56d18b1
+Only the caveman skill is installed; its ultracave and megacave aliases require those separate skills.
