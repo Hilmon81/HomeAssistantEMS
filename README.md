@@ -33,7 +33,9 @@ documented as export-positive and battery power as discharge-positive; these
 conventions are metadata only and values are not sign-adjusted. A stale-data
 threshold is not applied: some source entities update only when their value
 changes, so an unchanged value or old update timestamp alone does not mean the
-reading is stale. Source semantics, unit validation, and an independent
+reading is stale. The site-data model flags missing or unexpected units (W/kW
+for power, % for SoC, SEK/kWh for price) without converting values or making
+otherwise numeric readings unavailable. Source semantics and an independent
 freshness signal remain to be established.
 
 For a Nordpool price sensor, `raw_today` and `raw_tomorrow` attributes are
@@ -49,5 +51,6 @@ changes without polling, preserves source units, timestamps, and sign metadata,
 and does not apply age-based staleness rules. Invalid interval attributes are
 reported in the model without discarding the source price reading.
 
-The tests use `pytest-homeassistant-custom-component`. A matching Home
-Assistant test runtime is not installed in this workspace yet.
+The tests use `pytest-homeassistant-custom-component`. CI installs its matching
+Home Assistant 2026.10.4 runtime; that runtime is not installed in this local
+workspace.

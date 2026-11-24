@@ -52,6 +52,7 @@ Control is in the first-milestone scope, but live physical output remains disabl
 - Battery mappings can include state of charge, battery power, or both.
 - Grid power is export-positive; battery power is discharge-positive. The integration records these conventions but does not change sensor values.
 - Mapped sensor values and units are mirrored from their source entities; no conversion is performed.
+- The site-data model flags missing or unexpected units: W or kW for power, % for SoC, and SEK/kWh for price. Values remain unchanged, and unit mismatches do not make numeric readings unavailable.
 - Source update timestamps are informational only. Some source entities update only when their value changes, so an unchanged value or old `last_updated` timestamp alone must not mark a reading stale or unavailable.
 - A selected Nordpool price sensor's `raw_today` and `raw_tomorrow` attributes are
   mirrored when present. The owner-provided sample confirms timezone-aware ISO
@@ -65,7 +66,7 @@ Control is in the first-milestone scope, but live physical output remains disabl
 
 ## Decisions still required
 
-- Source measurement semantics, expected units, unit validation, and a reliable freshness signal (such as a source-provided heartbeat) before stale-data handling is introduced.
+- Source measurement semantics and a reliable freshness signal (such as a source-provided heartbeat) before stale-data handling is introduced.
 - Control-target entities, semantics, feedback, and rollback requirements.
 - Which settable entity domains and command semantics are supported by the selected device integrations.
 - Optimizer algorithm, data model, and control-cycle behavior.

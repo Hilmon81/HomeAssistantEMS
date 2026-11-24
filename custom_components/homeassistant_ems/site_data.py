@@ -25,9 +25,19 @@ from .const import (
     GRID_POWER_EXPORT_POSITIVE,
     KEY_ELECTRICITY_PRICE,
     KEY_GRID_POWER,
+    KEY_LOAD_POWER,
+    KEY_PV_POWER,
     PRICE_SERIES_ATTRIBUTES,
 )
 from .price_series import PriceInterval, parse_price_series
+
+_POWER_UNITS = ("W", "kW")
+_SITE_UNIT_EXPECTATIONS = {
+    KEY_GRID_POWER: _POWER_UNITS,
+    KEY_PV_POWER: _POWER_UNITS,
+    KEY_LOAD_POWER: _POWER_UNITS,
+    KEY_ELECTRICITY_PRICE: ("SEK/kWh",),
+}
 
 
 class SourceState(Protocol):
@@ -47,6 +57,7 @@ class SourceMeasurement:
     unit: str | None
     source_last_updated: datetime | None
     sign_convention: str | None = None
+    unit_error: str | None = None
 
     @property
     def available(self) -> bool:
@@ -99,8 +110,10 @@ def _measurement(
     source_entity_id: str,
     state: SourceState | None,
     sign_convention: str | None = None,
+    *,
+    expected_units: tuple[str, ...] | None = None,
 ) -> SourceMeasurement:
-    """Build a numeric reading without converting its value, unit, or sign."""
+    """Build a reading without converting it and report unexpected units."""
     value: float | None = None
     unit: str | None = None
     last_updated: datetime | None = None
@@ -111,13 +124,29 @@ def _measurement(
             unit = source_unit
         last_updated = state.last_updated
 
+    unit_error = (
+        _unit_error(unit, expected_units)
+        if state is not None and expected_units is not None
+        else None
+    )
     return SourceMeasurement(
         source_entity_id=source_entity_id,
         value=value,
         unit=unit,
         source_last_updated=last_updated,
         sign_convention=sign_convention,
+        unit_error=unit_error,
     )
+
+
+def _unit_error(unit: str | None, expected_units: tuple[str, ...]) -> str | None:
+    """Describe a missing or unexpected unit without changing the source unit."""
+    expected = " or ".join(expected_units)
+    if unit is None:
+        return f"Missing unit; expected {expected}"
+    if unit not in expected_units:
+        return f"Expected {expected}; received {unit!r}"
+    return None
 
 
 def _configured_source_ids(options: Mapping[str, Any]) -> tuple[str, ...]:
@@ -151,7 +180,10 @@ def build_site_data(
         if source_entity_id:
             sign = grid_sign if key == KEY_GRID_POWER else None
             measurements[key] = _measurement(
-                source_entity_id, states.get(source_entity_id), sign
+                source_entity_id,
+                states.get(source_entity_id),
+                sign,
+                expected_units=_SITE_UNIT_EXPECTATIONS.get(key),
             )
 
     price_today: tuple[PriceInterval, ...] = ()
@@ -191,7 +223,11 @@ def build_site_data(
                     identifier=battery[CONF_BATTERY_ID],
                     name=battery[CONF_BATTERY_NAME],
                     state_of_charge=(
-                        _measurement(soc_entity_id, states.get(soc_entity_id))
+                        _measurement(
+                            soc_entity_id,
+                            states.get(soc_entity_id),
+                            expected_units=("%",),
+                        )
                         if soc_entity_id
                         else None
                     ),
@@ -200,6 +236,7 @@ def build_site_data(
                             power_entity_id,
                             states.get(power_entity_id),
                             battery_sign,
+                            expected_units=_POWER_UNITS,
                         )
                         if power_entity_id
                         else None
@@ -211,7 +248,9 @@ def build_site_data(
                 identifier=inverter[CONF_INVERTER_ID],
                 name=inverter[CONF_INVERTER_NAME],
                 ac_power=_measurement(
-                    inverter_power_id, states.get(inverter_power_id)
+                    inverter_power_id,
+                    states.get(inverter_power_id),
+                    expected_units=_POWER_UNITS,
                 ),
                 batteries=tuple(batteries),
             )
