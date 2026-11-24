@@ -1,0 +1,11 @@
+{
+  "domain": "homeassistant_ems",
+  "name": "Home Assistant EMS",
+  "codeowners": ["@Hilmon81"],
+  "config_flow": true,
+  "documentation": "https://github.com/Hilmon81/HomeAssistantEMS",
+  "integration_type": "hub",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/Hilmon81/HomeAssistantEMS/issues",
+  "version": "0.1.0"
+}

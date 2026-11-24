@@ -1,0 +1,93 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add an EMS site",
+        "description": "Create a site entry. Read-only entity mappings can be configured afterward.",
+        "data": {
+          "site_name": "Site name"
+        },
+        "data_description": {
+          "site_name": "A unique label for this Home Assistant site."
+        }
+      }
+    },
+    "options": {
+      "step": {
+        "init": {
+          "title": "Configure EMS site",
+          "menu_options": {
+            "site_mapping": "Map site measurements",
+            "add_inverter": "Add an inverter",
+            "manage_inverter": "Manage an inverter's batteries",
+            "remove_inverter": "Remove an inverter",
+            "finish": "Save mappings"
+          }
+        },
+        "site_mapping": {
+          "title": "Map site measurements",
+          "description": "Choose source sensors. Values and units are mirrored without conversion.",
+          "data": {
+            "grid_power": "Grid power",
+            "pv_power": "PV power",
+            "load_power": "Load power",
+            "electricity_price": "Electricity price"
+          }
+        },
+        "add_inverter": {
+          "title": "Add an inverter",
+          "description": "Name the inverter and select its AC power sensor.",
+          "data": {
+            "name": "Inverter name",
+            "ac_power_entity_id": "AC power entity"
+          }
+        },
+        "manage_inverter": {
+          "title": "Manage inverter batteries",
+          "data": {
+            "id": "Inverter"
+          }
+        },
+        "battery_menu": {
+          "title": "Configure inverter batteries",
+          "menu_options": {
+            "add_battery": "Add a battery",
+            "remove_battery": "Remove a battery",
+            "finish_inverter": "Finish this inverter"
+          }
+        },
+        "add_battery": {
+          "title": "Add a battery",
+          "description": "A battery may have a state-of-charge sensor, a power sensor, or both.",
+          "data": {
+            "name": "Battery name",
+            "soc_entity_id": "State-of-charge entity",
+            "power_entity_id": "Battery power entity"
+          }
+        },
+        "remove_battery": {
+          "title": "Remove a battery",
+          "data": {
+            "id": "Battery"
+          }
+        },
+        "remove_inverter": {
+          "title": "Remove an inverter",
+          "data": {
+            "id": "Inverter"
+          }
+        }
+      },
+      "error": {
+        "invalid_name": "Enter a non-empty name.",
+        "duplicate_inverter": "An inverter with this name is already configured.",
+        "duplicate_battery": "A battery with this name is already configured for this inverter.",
+        "battery_measurement_required": "Select at least one battery measurement."
+      }
+    },
+    "error": {
+      "already_configured": "A site with this name is already configured.",
+      "invalid_site_name": "Enter a non-empty site name."
+    }
+  }
+}
